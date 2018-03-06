@@ -3,7 +3,7 @@
 
     var WALLET_NAME_MAXLENGTH = 16;
 
-    function AccountRegisterController($scope, accountService, cryptoService, loginContext) {
+    function AccountRegisterController($scope, accountService, cryptoService, loginContext, $http) {
         var ctrl = this;
 
         ctrl.validationOptions = {
@@ -44,13 +44,21 @@
         function cleanup() {
             ctrl.name = '';
             ctrl.password = '';
+            ctrl.email = '';
             ctrl.confirmPassword = '';
         }
 
         function saveAccountAndSignIn(form) {
+            // TODO: Make call to backend and receive something back;
             if (!form.validate()) {
                 return false;
             }
+
+            var data = {
+                name: ctrl.name,
+                email: ctrl.email,
+                password: ctrl.password
+            };
 
             var seed = loginContext.seed;
             var cipher = cryptoService.encryptWalletSeed(seed, ctrl.password).toString();
@@ -67,11 +75,21 @@
             };
 
             accountService.addAccount(account);
-
             loginContext.notifySignedIn($scope, address, seed, keys);
-
             cleanup();
-
+            // $http.post('/sven_api', {
+            //     email: ctrl.email,
+            //     name: ctrl.name,
+            //     address: address
+            // }).then(function (response) {
+            //     accountService.addAccount(account);
+            //     loginContext.notifySignedIn($scope, address, seed, keys);
+            //     cleanup();
+            // }).catch(function(err) {
+            //     // TODO: Show ERROR
+            //     console.log('Error', err);
+            //     cleanup();
+            // });
             return true;
         }
 
@@ -81,7 +99,7 @@
         }
     }
 
-    AccountRegisterController.$inject = ['$scope', 'accountService', 'cryptoService', 'loginContext'];
+    AccountRegisterController.$inject = ['$scope', 'accountService', 'cryptoService', 'loginContext', '$http'];
 
     angular
         .module('app.login')

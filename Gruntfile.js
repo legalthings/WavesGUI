@@ -280,7 +280,7 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: ['Gruntfile.js', 'src/js/**/*.js'],
-                tasks: ['concat:scriptsBundle', 'test'],
+                tasks: ['concat:scriptsBundle'],
                 options: {
                     interrupt: true
                 }

@@ -4,7 +4,8 @@
     var SCREENS = {
         splash: 'splash-screen',
         accounts: 'accounts-screen',
-        main: 'main-screen'
+        main: 'main-screen',
+        ltRegister: 'lt-register-screen'
     };
 
     function HomeController($scope, $window, events, applicationConstants, utilsService,
@@ -23,6 +24,7 @@
 
         $scope.$on(events.SPLASH_COMPLETED, function () {
             home.screen = SCREENS.accounts;
+            // home.screen = SCREENS.ltRegister;
         });
 
         $scope.clipboardOk = function (message) {
