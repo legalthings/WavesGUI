@@ -280,7 +280,7 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: ['Gruntfile.js', 'src/js/**/*.js'],
-                tasks: ['concat:scriptsBundle', 'test'],
+                tasks: ['concat:scriptsBundle'],
                 options: {
                     interrupt: true
                 }
@@ -633,14 +633,14 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'build-local',
-        'jscs',
-        'jshint',
-        'karma:development',
+        // 'jscs',
+        // 'jshint',
+        // 'karma:development',
         'postcss',
         'concat',
-        'karma:distr',
+        // 'karma:distr',
         'uglify',
-        'karma:minified'
+        // 'karma:minified'
     ]);
 
     // Default task.

@@ -41,21 +41,18 @@
   </div>
 </div>
 
+<!-- LT-REGISTER-PAGE -->
+<div id="lt-register-screen" ng-switch-when="lt-register-screen" ng-cloak>
+  CUSTOM REGISTER
+</div>
+
 <!-- LOG IN AREA -->
 <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-switch-when="accounts-screen" ng-cloak>
-  <div class="banner">
-    <div class="banner-content">
-      <img src="img/warning_icon.svg"/> Google is shutting down its Chrome Web Store.
-      Save your secret phrase (SEED) and start using our new desktop application.
-      Download it from the official Waves site <a href="https://wavesplatform.com" target="_blank">wavesplatform.com</a>,
-      or use the web client <a href="https://beta.wavesplatform.com" target="_blank">beta.wavesplatform.com</a>
-    </div>
-  </div>
   <table id="lockscreenTable">
 
     <thead>
     <div id="logoNversion">
-      <img src="img/topleftlogo.svg" />
+      <img src="img/timeline_pic_10.png" />
       <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
     </div>
     </thead>
@@ -68,19 +65,18 @@
           <h2 id="AccHeader">{{accounts.caption}}</h2>
           <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
             <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
-                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
-                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
+                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)">
+                                        <b>{{::account.name}}</b> <small>{{::account.address}}</small>
                                     </span>
-              <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
-              <span class="divider-1"></span>
+              
               <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">
                 <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
               </button>
             </p>
 
-            <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
-            <span class="divider-1"></span>
-            <button id="create_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
+            <!-- <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button> -->
+            <!-- <span class="divider-1"></span> -->
+            <button id="create_account" class="wButton fade" ng-if="list.accounts.length === 0" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
             <br/>
 
             <!-- Remove Account popup -->
@@ -167,6 +163,22 @@
                     <br/>
                   </label>
                   <input type="text" id="walletName" name="walletName" class="wInput" ng-model="vm.name" focus-me="accounts.mode === 'register'"/>
+                </div>
+                <br/>
+                <div class="form-field">
+                  <label for="walletEmail">
+                    E-MAIL<span class="infoSpan" tooltipster tooltip-theme="tooltipster-theme1" tooltip-html title="It is possible to assign a name to your account(s)
+                                                <br/>
+                                                in order to make them more memorable, feel
+                                                <br/>
+                                                free to use the field below to do so.
+                                                <br/><br/>
+                                                <i>NOTE: This is optional, the accounts do not forcefully
+                                                <br/>
+                                                need to have assigned a name.</i>"></span>
+                    <br/>
+                  </label>
+                  <input type="text" id="walletEmail" name="walletEmail" class="wInput" ng-model="vm.email"/>
                 </div>
                 <br/>
                 <div class="form-field">
@@ -424,11 +436,10 @@
           <div class="noDisp" ng-controller="walletSendController as send">
             <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer(send.form)">
               <form id="send-waves-form" name="send.form" class="paymentForm" novalidate ng-validate="send.validationOptions">
-                <h2 class="sectionHeader">SEND PAYMENT: {{send.currency}}</h2>
+                <h2 class="sectionHeader">SEND {{send.currency}}</h2>
                 <table>
                   <div class="balanceAmt">
-                    <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Asset balance: </p><span class="balancewaves">{{send.assetBalance | moneyLong:true}}</span><br/></div>
-                    <p>Waves balance: </p><span class="balancewaves">{{send.feeAssetBalance | moneyLong:true}}</span>
+                    <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Balance: </p><span class="balancewaves">{{send.assetBalance | moneyLong:true}}</span><br/></div>
                   </div>
                   <thead>
                   <tr>
@@ -1215,7 +1226,6 @@
             <img src="img/tab_cont_prev.svg" />
           </div>
           <div id="addContact-wPop" class="wavesPop">
-            <img class="wPop-header" src="img/modal-header.svg" />
             <form id="addContactForm" class="wPop-content">
               <h2 class="sectionHeader">ADD CONTACT</h2>
               <p>Fill the fields below in order to add a new contact to your list:</p>
@@ -1281,6 +1291,7 @@
 <!-- JAVASCRIPT BEGIN -->
 <script src="../distr/devel/js/bundle.js"></script>
 <script src="../distr/devel/js/templates.js"></script>
+<!-- <script src="../distr/waves-lite-client-mainnet-0.5.18.js"></script> -->
 <!-- JAVASCRIPT END -->
 
 </body>
