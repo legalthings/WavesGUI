@@ -437,10 +437,43 @@
             <div id="wB-butSend-WAV" waves-dialog ok-button-caption="SUBMIT" cancel-button-visible="false" on-dialog-ok="send.submitTransfer(send.form)">
               <form id="send-waves-form" name="send.form" class="paymentForm" novalidate ng-validate="send.validationOptions">
                 <h2 class="sectionHeader">SEND {{send.currency}}</h2>
-                <table>
-                  <div class="balanceAmt">
-                    <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Balance: </p><span class="balancewaves">{{send.assetBalance | moneyLong:true}}</span><br/></div>
+                <div class="balanceAmt">
+                  <div ng-if="!send.feeAndTransferAssetsAreTheSame"><p>Balance: </p><span class="balancewaves">{{send.assetBalance | moneyLong:true}}</span><br/></div>
+                </div>
+                <div class="form-content">
+                  <div class="row" layout="row" layout-xs="column" hide-xs style="font-weight: bold; border-bottom: 1px solid #ebebeb; padding-bottom: 5px;">
+                    <div flex>DESCRIPTION</div>
+                    <div class="form-field">INPUT</div>
                   </div>
+                  <div class="row" layout="row" layout-xs="column">
+                    <div flex>Recipient's Address</div>
+                    <div class="form-field" flex="60" flex-xs="100">
+                      <input class="wInput form-control" name="sendRecipient" type="text" placeholder="Recipient" ng-model="send.recipient" />
+                    </div>
+                  </div>
+
+                  <div class="row" layout="row" layout-xs="column">
+                    <div flex>Amount</div>
+                    <div class="form-field" flex="60" flex-xs="100">
+                      <input class="wInput form-control" name="sendAmount" type="text" placeholder="Amount" ng-model="send.amount" decimal-input-restrictor />
+                    </div>
+                  </div>
+
+                  <div class="row" layout="row" layout-xs="column">
+                    <div flex>Fee</div>
+                    <div class="form-field" flex="60" flex-xs="100">
+                      <md-autocomplete md-input-name="sendFee" md-selected-item="send.autocomplete.selectedFee" md-search-text="send.autocomplete.searchText"
+                                       md-items="item in send.autocomplete.querySearch(send.autocomplete.searchText)"
+                                       md-item-text="item.amount.toString()" md-min-length="0" md-require-match="" md-no-cache="true"
+                                       md-menu-class="popup-autocomplete" class="fee-autocomplete">
+                        <md-item-template>
+                          <span md-highlight-text="send.autocomplete.searchText">{{item.displayText}}</span>
+                        </md-item-template>
+                      </md-autocomplete>
+                    </div>
+                  </div>
+                </div>
+                <table style="display: none">
                   <thead>
                   <tr>
                     <th>DESCRIPTION</th>
