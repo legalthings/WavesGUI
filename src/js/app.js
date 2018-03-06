@@ -13,7 +13,7 @@ var __mockValidateAddress = function(address) {};
  * Add our currency
  */
 
-Currency['VOTE'] = {
+Currency.VOTE = {
     displayName: 'OM Vote',
     id: 'Gt54oCVHCwJvxj8vfkBcoy4VY1TCeAsmzvbqYcSLvvSg',
     precision: 0,

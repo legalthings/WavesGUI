@@ -60,8 +60,6 @@
                 password: ctrl.password
             };
 
-            
-
             var seed = loginContext.seed;
             var cipher = cryptoService.encryptWalletSeed(seed, ctrl.password).toString();
             var keys = cryptoService.getKeyPair(seed);
@@ -77,9 +75,8 @@
             };
 
             accountService.addAccount(account);
-                loginContext.notifySignedIn($scope, address, seed, keys);
-                cleanup();
-            
+            loginContext.notifySignedIn($scope, address, seed, keys);
+            cleanup();
             // $http.post('/sven_api', {
             //     email: ctrl.email,
             //     name: ctrl.name,
