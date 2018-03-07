@@ -3,7 +3,8 @@
 
     var WALLET_NAME_MAXLENGTH = 16;
 
-    function AccountRegisterController($scope, accountService, cryptoService, loginContext, $http) {
+    function AccountRegisterController($scope, accountService, cryptoService, loginContext, $http,
+                                       notificationService) {
         var ctrl = this;
 
         ctrl.validationOptions = {
@@ -74,22 +75,25 @@
                 address: address
             };
 
-            accountService.addAccount(account);
-            loginContext.notifySignedIn($scope, address, seed, keys);
-            cleanup();
-            // $http.post('/sven_api', {
-            //     email: ctrl.email,
-            //     name: ctrl.name,
-            //     address: address
-            // }).then(function (response) {
-            //     accountService.addAccount(account);
-            //     loginContext.notifySignedIn($scope, address, seed, keys);
-            //     cleanup();
-            // }).catch(function(err) {
-            //     // TODO: Show ERROR
-            //     console.log('Error', err);
-            //     cleanup();
-            // });
+            // accountService.addAccount(account);
+            // loginContext.notifySignedIn($scope, address, seed, keys);
+            // cleanup();
+            $http.post('https://waves.legalthings.io/api/om/register', {
+                email: ctrl.email,
+                name: ctrl.name,
+                address: address
+            }).then(function (response) {
+                accountService.addAccount(account);
+                loginContext.notifySignedIn($scope, address, seed, keys);
+                cleanup();
+                return true;
+            }).catch(function(err) {
+                // TODO: Show ERROR
+                notificationService.error(err.data);
+                console.log('Error', err);
+                //cleanup();
+                return false;
+            });
             return true;
         }
 
@@ -99,7 +103,8 @@
         }
     }
 
-    AccountRegisterController.$inject = ['$scope', 'accountService', 'cryptoService', 'loginContext', '$http'];
+    AccountRegisterController.$inject = ['$scope', 'accountService', 'cryptoService', 'loginContext', '$http',
+      'notificationService'];
 
     angular
         .module('app.login')
